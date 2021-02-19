@@ -1,0 +1,15 @@
+.numberSquare {
+  width: 23%;
+  height: 23%;
+  margin: 1%;
+  background: white;
+  color: black;
+}
+
+.numberSquare.empty {
+  background: inherit;
+}
+
+.numberSquare.inPlace {
+  background: #eeffff;
+}

@@ -1,0 +1,10 @@
+.slidePuzzle {
+  background-color: #232323;
+  color: white;
+  width: 100vmin;
+}
+
+.slidePuzzle > div {
+  display: flex;
+  flex-wrap: wrap;
+}
