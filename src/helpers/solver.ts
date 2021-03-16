@@ -24,12 +24,13 @@ export const populateSolutionMap = (): void => {
   const permutations: permutation[] = Object.entries(solutionMap).map((e) => [stringToPuzzle(e[0]), e[1]]);
 
   for (let i = 0; permutations[i][1].length < 15 /* alt: i < permutations.length */; i++) {
-    const availableMoves = getMovableIndices(permutations[i][0]);
+    const emptyIndex = permutations[i][0].indexOf(null);
+    const availableMoves = getMovableIndices(permutations[i][0], emptyIndex);
     for (const move of availableMoves) {
       const newArr = moveSquare(permutations[i][0], move);
       const str = puzzleToString(newArr);
       if (solutionMap[str]) continue;
-      const steps = [...permutations[i][1], move];
+      const steps = [...permutations[i][1], emptyIndex];
       permutations.push([newArr, steps]);
       solutionMap[str] = steps;
     }
@@ -41,27 +42,29 @@ export const populateSolutionMap = (): void => {
 export const solve = (arr: puzzleArray): number[] => {
   console.time('solve');
   const str = puzzleToString(arr);
+  let solution: number[] = [];
   if (solutionMap[str]) {
-    return reverseArr(solutionMap[str]);
-  }
-
-  const explorationMap: { [key: string]: number[] } = {};
-  const permutations: permutation[] = [[arr, []]];
-  for (let i = 0; i < permutations.length && i < 100_000; i++) {
-    const availableMoves = getMovableIndices(permutations[i][0]);
-    for (const move of availableMoves) {
-      const newArr = moveSquare(permutations[i][0], move);
-      const str = puzzleToString(newArr);
-      if (explorationMap[str]) continue;
-      const steps = [...permutations[i][1], move];
-      if (solutionMap[str]) {
-        console.timeEnd('solve');
-        return [...steps, ...reverseArr(solutionMap[str])];
+    solution = reverseArr(solutionMap[str]);
+  } else {
+    const explorationMap: { [key: string]: number[] } = {};
+    const permutations: permutation[] = [[arr, []]];
+    for (let i = 0; !solution.length && i < permutations.length && i < 100_000; i++) {
+      const availableMoves = getMovableIndices(permutations[i][0]);
+      for (const move of availableMoves) {
+        const newArr = moveSquare(permutations[i][0], move);
+        const str = puzzleToString(newArr);
+        if (explorationMap[str]) continue;
+        const steps = [...permutations[i][1], move];
+        if (solutionMap[str]) {
+          solution = [...steps, ...reverseArr(solutionMap[str])];
+          break;
+        }
+        permutations.push([newArr, steps]);
+        explorationMap[str] = steps;
       }
-      permutations.push([newArr, steps]);
-      explorationMap[str] = steps;
     }
   }
+
   console.timeEnd('solve');
-  return [];
+  return solution;
 };

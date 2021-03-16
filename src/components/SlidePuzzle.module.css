@@ -2,6 +2,12 @@
   background-color: #232323;
   color: white;
   width: 100vmin;
+  font-size: min(10vw, 10vh);
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  color: rgba(255,255,255,0.5);
+  text-shadow: 2px 2px rgba(100,100,100,0.1);
 }
 
 .slidePuzzle > div {

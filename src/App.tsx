@@ -3,7 +3,7 @@ import './App.css';
 import SlidePuzzle from './components/SlidePuzzle';
 import { populateSolutionMap } from './helpers/solver';
 
-populateSolutionMap();
+// populateSolutionMap();
 
 const App: React.FC = () => {
   return (

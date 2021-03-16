@@ -13,12 +13,10 @@ export const stringToVal = (s: string): number | null => {
 };
 
 export const getShuffledPuzzleArr = (): puzzleArray => {
-  console.time('egg');
   let a = getSortedPuzzleArr();
   for (let i = 0; i < 10_000; i++) {
     a = randomMove(a);
   }
-  console.timeEnd('egg');
   return a;
 };
 
@@ -40,9 +38,17 @@ export const canMoveSquare = (puzzleArr: puzzleArray, i: number): boolean => {
   return isAdjacentIdx(emptyIndex, i);
 };
 
-export const getMovableIndices = (puzzleArr: puzzleArray): number[] => {
-  const movableIndices: number[] = [];
+export const getMoveRecord = (puzzleArr: puzzleArray, i: number): MoveRecord | null => {
   const emptyIndex = puzzleArr.indexOf(null);
+  if (!isAdjacentIdx(emptyIndex, i)) return null;
+  return {
+    position: puzzleArr[i] as number,
+    direction: getDirection(i, emptyIndex),
+  };
+};
+
+export const getMovableIndices = (puzzleArr: puzzleArray, emptyIndex: number = puzzleArr.indexOf(null)): number[] => {
+  const movableIndices: number[] = [];
   const emptyCoord = getCoords(emptyIndex);
   for (let i = 0; i < puzzleArr.length; i++) {
     if (isAdjacentCoord(getCoords(i), emptyCoord)) {
@@ -84,4 +90,30 @@ export const reverseArr = <T>(array: T[]): T[] => array.slice().reverse();
 export const isObjectEmpty = (obj: Record<string, unknown>): boolean => {
   for (const i in obj) return false;
   return true;
+};
+
+export enum Direction {
+  UP,
+  RIGHT,
+  DOWN,
+  LEFT,
+}
+
+export interface MoveRecord {
+  position: number;
+  direction: Direction;
+}
+const getDirection = (indexToMove: number, emptyIndex: number): Direction => {
+  const diff = indexToMove - emptyIndex;
+  switch (diff) {
+    case 1:
+      return Direction.LEFT;
+    case -1:
+      return Direction.RIGHT;
+    case 4:
+      return Direction.UP;
+    case -4:
+    default:
+      return Direction.DOWN;
+  }
 };
