@@ -3,6 +3,7 @@ import { getRandomImage } from '../helpers/images';
 
 import {
   canMoveSquare,
+  getBarelyShuffledPuzzleArr,
   getMoveRecord,
   getShuffledPuzzleArr,
   // getSortedPuzzleArr,
@@ -16,7 +17,7 @@ import NumberSquare from './NumberSquare';
 import styles from './SlidePuzzle.module.css';
 
 const SlidePuzzle: React.FC = () => {
-  const [puzzleArr, setPuzzleArr] = useState(() => getShuffledPuzzleArr() as puzzleArray);
+  const [puzzleArr, setPuzzleArr] = useState(() => getBarelyShuffledPuzzleArr() as puzzleArray);
   const [image, setImage] = useState(() => getRandomImage());
   const [lastMove, setLastMove] = useState(() => null as MoveRecord | null);
 
@@ -25,21 +26,21 @@ const SlidePuzzle: React.FC = () => {
   // console.log('lastMove', lastMove);
 
   const handleClick = (i: number) => {
-    if (canMoveSquare(puzzleArr, i)) {
+    if (sorted) {
+      return reset;
+    } else if (canMoveSquare(puzzleArr, i)) {
       return () => {
         setLastMove(getMoveRecord(puzzleArr, i));
         setPuzzleArr(moveSquare(puzzleArr, i));
       };
-    } else if (sorted) {
-      return reset;
     } else return undefined;
   };
 
   const reset = () => {
     console.log('reset!');
-    setImage(getRandomImage());
+    setImage(getRandomImage(image));
     setLastMove(null);
-    setPuzzleArr(getShuffledPuzzleArr());
+    setPuzzleArr(getBarelyShuffledPuzzleArr());
   };
 
   const squares = puzzleArr.map((n, i) => (
@@ -74,7 +75,7 @@ const SlidePuzzle: React.FC = () => {
   return (
     <div>
       <div className={styles.slidePuzzle + ' square'} style={style}>
-        {sorted && <span>Play again?</span>}
+        {sorted && <div className={styles.playAgain}>click to play again</div>}
         <div className="content">{squares}</div>
       </div>
       <div className={styles.attribution} dangerouslySetInnerHTML={{ __html: image.attribution }}></div>

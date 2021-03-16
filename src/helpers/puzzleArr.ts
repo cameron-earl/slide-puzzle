@@ -30,6 +30,12 @@ export const getShuffledPuzzleArr = (): puzzleArray => {
   return a;
 };
 
+export const getBarelyShuffledPuzzleArr = (): puzzleArray => {
+  let a = getSortedPuzzleArr();
+  a = randomMove(a);
+  return a;
+};
+
 export const moveSquare = (puzzleArr: puzzleArray, i: number): puzzleArray => {
   const emptyIndex = puzzleArr.indexOf(null);
   if (!isAdjacentIdx(emptyIndex, i)) return puzzleArr;

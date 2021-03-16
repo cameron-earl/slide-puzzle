@@ -2,7 +2,7 @@
   "name": "slide-puzzle",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://cameron-earl.github.io/slide-puzzle/",
+  "homepage": "",
   "dependencies": {
     "classnames": "^2.2.6",
     "react": "^17.0.1",

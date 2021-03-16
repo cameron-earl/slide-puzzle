@@ -39,7 +39,7 @@ const NumberSquare: React.FC<NumberSquareProps> = (props: NumberSquareProps) => 
     position === emptyPostionValue
       ? {}
       : {
-          backgroundImage: !!children ? `url("/images/${image.fileName}")` : '',
+          backgroundImage: `url("/images/${image.fileName}")`,
           backgroundSize: '400% 400%',
           backgroundPosition: `${col * 33.33}% ${row * 33.33}%`,
         };
