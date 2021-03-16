@@ -17,7 +17,7 @@ import NumberSquare from './NumberSquare';
 import styles from './SlidePuzzle.module.css';
 
 const SlidePuzzle: React.FC = () => {
-  const [puzzleArr, setPuzzleArr] = useState(() => getBarelyShuffledPuzzleArr() as puzzleArray);
+  const [puzzleArr, setPuzzleArr] = useState(() => getShuffledPuzzleArr() as puzzleArray);
   const [image, setImage] = useState(() => getRandomImage());
   const [lastMove, setLastMove] = useState(() => null as MoveRecord | null);
 
@@ -40,7 +40,7 @@ const SlidePuzzle: React.FC = () => {
     console.log('reset!');
     setImage(getRandomImage(image));
     setLastMove(null);
-    setPuzzleArr(getBarelyShuffledPuzzleArr());
+    setPuzzleArr(getShuffledPuzzleArr());
   };
 
   const squares = puzzleArr.map((n, i) => (
