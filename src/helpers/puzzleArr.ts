@@ -12,11 +12,21 @@ export const stringToVal = (s: string): number | null => {
   return n;
 };
 
+export const isInPosition = (n: number | null, i: number): boolean => {
+  if (n === null) return false;
+  return n - 1 === i;
+};
+
 export const getShuffledPuzzleArr = (): puzzleArray => {
   let a = getSortedPuzzleArr();
   for (let i = 0; i < 10_000; i++) {
     a = randomMove(a);
   }
+
+  while (a.some(isInPosition)) {
+    a = randomMove(a);
+  }
+
   return a;
 };
 

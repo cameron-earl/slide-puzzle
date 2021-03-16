@@ -35,11 +35,14 @@ const NumberSquare: React.FC<NumberSquareProps> = (props: NumberSquareProps) => 
     styles[animationClass],
   );
 
-  const style = {
-    backgroundImage: !!children ? `url("/images/${image.fileName}")` : '',
-    backgroundSize: '400% 400%',
-    backgroundPosition: `${col * 33.33}% ${row * 33.33}%`,
-  };
+  const style =
+    position === emptyPostionValue
+      ? {}
+      : {
+          backgroundImage: !!children ? `url("/images/${image.fileName}")` : '',
+          backgroundSize: '400% 400%',
+          backgroundPosition: `${col * 33.33}% ${row * 33.33}%`,
+        };
 
   return (
     <div className={numberSquareClass} onClick={handleClick} style={style}>

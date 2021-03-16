@@ -5,17 +5,18 @@ import {
   canMoveSquare,
   getMoveRecord,
   getShuffledPuzzleArr,
-  getSortedPuzzleArr,
+  // getSortedPuzzleArr,
   isSorted,
   MoveRecord,
   moveSquare,
+  puzzleArray,
 } from '../helpers/puzzleArr';
-import { solve } from '../helpers/solver';
+// import { solve } from '../helpers/solver';
 import NumberSquare from './NumberSquare';
 import styles from './SlidePuzzle.module.css';
 
 const SlidePuzzle: React.FC = () => {
-  const [puzzleArr, setPuzzleArr] = useState(() => getShuffledPuzzleArr());
+  const [puzzleArr, setPuzzleArr] = useState(() => getShuffledPuzzleArr() as puzzleArray);
   const [image, setImage] = useState(() => getRandomImage());
   const [lastMove, setLastMove] = useState(() => null as MoveRecord | null);
 
@@ -36,9 +37,9 @@ const SlidePuzzle: React.FC = () => {
 
   const reset = () => {
     console.log('reset!');
-    setPuzzleArr(getShuffledPuzzleArr());
     setImage(getRandomImage());
     setLastMove(null);
+    setPuzzleArr(getShuffledPuzzleArr());
   };
 
   const squares = puzzleArr.map((n, i) => (
@@ -71,9 +72,12 @@ const SlidePuzzle: React.FC = () => {
     : {};
 
   return (
-    <div className={styles.slidePuzzle + ' square'} style={style}>
-      {sorted && <span>Play again?</span>}
-      {<div className="content">{squares}</div>}
+    <div>
+      <div className={styles.slidePuzzle + ' square'} style={style}>
+        {sorted && <span>Play again?</span>}
+        <div className="content">{squares}</div>
+      </div>
+      <div className={styles.attribution} dangerouslySetInnerHTML={{ __html: image.attribution }}></div>
     </div>
   );
 };
